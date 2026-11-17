@@ -1,0 +1,57 @@
+{
+ "state": "AR",
+ "source": {
+  "name": "USDA-NRCS Soil Survey Geographic Database (SSURGO): the tables from the national CSV download, the map unit raster from the SQLite SSURGO state download",
+  "file": "SQLite_SSURGO_AR.7z",
+  "url": "https://nrcs.app.box.com/v/soils",
+  "path": "SSURGO/SQLite SSURGO (Geopackages)/States",
+  "tables": "ssurgo_tabular_CONUS_2027.7z (csv_ssurgo), the state's survey areas",
+  "raster": "muraster_10m_AR.tif",
+  "tablesUrl": "https://nrcs.app.box.com/v/soils",
+  "tablesPath": "SSURGO/Open Formatted Files/US/tabular (csv)"
+ },
+ "fy": "FY2027",
+ "published": "2026-10-01",
+ "surveyAreas": 70,
+ "saverest": {
+  "min": "2026-09-03 18:09:59",
+  "max": "2026-09-10 12:03:27"
+ },
+ "counts": {
+  "mapunits": 3293,
+  "mapunitsWithRows": 3293,
+  "components": 9229,
+  "horizons": 24777,
+  "hzRows": 24777
+ },
+ "nullColumns": [
+  "chorizon.esp_r",
+  "chorizon.fragvoltot_r"
+ ],
+ "raster": {
+  "path": "r30/index.json",
+  "resample": "mode",
+  "tiles": 638,
+  "tileBytes": 17988604,
+  "cells": 153062507,
+  "pixels10m": 1377313254,
+  "sameAs10m": 1323470079,
+  "mapunitsIn10m": 3293,
+  "mapunitsInGrid": 3293,
+  "grid": {
+   "crs": "EPSG:5070",
+   "res": 30,
+   "tile": 512,
+   "x0": 107520,
+   "y0": 1520640,
+   "rows": 27,
+   "cols": 31
+  }
+ },
+ "shards": {
+  "path": "mu/<mukey % 1024>.json",
+  "count": 1024
+ },
+ "built": "2026-11-17T15:03:30Z",
+ "tool": "tools/build_ssurgo.py"
+}

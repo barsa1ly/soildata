@@ -1,26 +1,52 @@
 # soildata
 
-A static copy of the USDA-NRCS **Soil Survey Geographic Database (SSURGO) for Texas**, fiscal year 2027 (published by
-NRCS on 1 October 2026; survey areas dated 3 to 10 September 2026). SSURGO is public domain.
+A static copy of the USDA-NRCS **Soil Survey Geographic Database (SSURGO)**, fiscal year 2027 (published by NRCS on
+1 October 2026), for **5 states**: Arkansas, Louisiana, New Mexico, Oklahoma and Texas. SSURGO is public domain.
 
-The SoilGuard and FieldGuard apps read it as a **backup**: they ask USDA's Soil Data Access (SDA) for the soil at a
-point first, and read these files only when SDA does not answer. The copy holds what the apps ask SDA for (their
-`js/soil.js`, `batch()` and `tablesAt()`): the map unit at the point, and that map unit's rows of eight tables, with the
-same columns, in the same order, and every value a string, as SDA's JSON gives them.
+The copy of the 48 states and DC is split by region over four repositories with the same layout, so that each one is a
+GitHub Pages site of less than 1 GB:
+
+| Repository | States |
+|---|---|
+| [soildata](https://github.com/barsa1ly/soildata) | AR LA NM OK TX |
+| [soildata-west](https://github.com/barsa1ly/soildata-west) | AZ CA CO ID MT NV OR UT WA WY |
+| [soildata-central](https://github.com/barsa1ly/soildata-central) | IA IL KS MN MO ND NE SD WI |
+| [soildata-east](https://github.com/barsa1ly/soildata-east) | AL CT DC DE FL GA IN KY MA MD ME MI MS NC NH NJ NY OH PA RI SC TN VA VT WV |
+
+The [SoilGuard](https://barsa1ly.github.io/soilguard/) app reads it as a **backup**: it asks USDA's Soil Data Access
+(SDA) first, and reads these files only when SDA does not answer. The copy holds what the app asks SDA for (its
+`js/soil.js`, `batch()` and `tablesAt()`): the map unit at a point, and that map unit's rows of eight tables, with the
+same columns, in the same order, and every value a string, as SDA's JSON gives them. The app's Basin tab also counts
+the copy's cells inside a watershed (`backupIn()`) for its soil loss and runoff when SDA does not answer.
+
+## States in this repository
+
+| Code | State | Survey areas | Map units | Components | Horizons | 30 m tiles | 10 m pixels kept | Size (MB) | Tables from |
+|---|---|---|---|---|---|---|---|---|---|
+| AR | Arkansas | 70 | 3,293 | 9,229 | 24,777 | 638 | 96.1% | 23.1 | national CSV |
+| LA | Louisiana | 64 | 2,402 | 8,597 | 14,671 | 663 | 96.7% | 18.0 | state GeoPackage |
+| NM | New Mexico | 46 | 4,550 | 19,677 | 55,272 | 1,436 | 98.3% | 29.4 | state GeoPackage |
+| OK | Oklahoma | 77 | 5,221 | 18,608 | 47,128 | 854 | 95.5% | 38.2 | state GeoPackage |
+| TX | Texas | 232 | 13,122 | 41,268 | 65,610 | 3,068 | 97.1% | 89.9 | state GeoPackage |
+
+199 MB in all. *10 m pixels kept*: the share of the state's 10 m pixels whose map unit is the one their 30 m
+cell keeps (see the raster below).
+
+Arkansas: NRCS's FY2027 state package could not be used (Arkansas's holds the map unit raster but no GeoPackage), so the tables come from NRCS's national CSV tables of the same fiscal year (`ssurgo_tabular_CONUS_2027.7z`, folder *SSURGO / Open Formatted Files / US / tabular (csv)* of the Box share), the state's survey areas only, through `tools/state_from_csv.py`; the raster comes from the state package as for the other states. Rebuilt this way as a check, Texas's 13,122 records are the same as the ones built from its GeoPackage, value for value, except for trailing spaces that the CSV keeps and the GeoPackage trims (`majcompflag` `"No "`, a few ecological class names).
 
 ## Layout
 
 ```
-TX/meta.json              source, fiscal year, survey dates, counts, build date, tool
-TX/mukeys.json            [null, 58362, 58384, ...]: raster index -> mukey (index 0 = no map unit)
-TX/mu/<k>.json.gz         map unit records, gzipped, k = mukey % 1024 (1024 files, about 17 kB each, 13 map units)
-TX/r30/index.json         the 30 m raster's tile grid
-TX/r30/<row>/<col>.bin    raster tiles, 512 x 512 cells (3,068 tiles; a tile with no map unit is not written)
-tools/build_ssurgo.py     builds a state's copy from NRCS's SQLite SSURGO download
-tools/lookup_point.py     reads the copy at a point (a reference reader, used for the checks below)
+<ST>/meta.json              source, fiscal year, survey dates, counts, build date, tool
+<ST>/mukeys.json            [null, mukey, mukey, ...]: raster index -> mukey (index 0 = no map unit)
+<ST>/mu/<k>.json.gz         map unit records, gzipped, k = mukey % 1024 (1024 files)
+<ST>/r30/index.json         the 30 m raster's tile grid
+<ST>/r30/<row>/<col>.bin    raster tiles, 512 x 512 cells (a tile with no map unit is not written)
 ```
 
-### Map unit records (`TX/mu/<k>.json.gz`, gzip: inflate, then parse as JSON)
+The tools that build it are in the [soildata](https://github.com/barsa1ly/soildata/tree/main/tools) repository.
+
+### Map unit records (`<ST>/mu/<k>.json.gz`, gzip: inflate, then parse as JSON)
 
 ```
 {"<mukey>": {"mukey": 391100, "mu": {...}, "comps": [...], "hz": [...], "areas": [...],
@@ -43,28 +69,27 @@ Values are strings the way SDA writes them: whole numbers without `.0` (`"9"`, `
 `null` where there is no value. Two horizon columns the apps ask SDA for are not in NRCS's download and are `null`
 for every horizon: `fragvoltot_r` (total rock fragment volume) and `esp_r` (exchangeable sodium percentage).
 
-All 13,122 Texas map units have a record (41,268 components, 65,610 horizons).
-
-### Map unit raster (`TX/r30/`)
+### Map unit raster (`<ST>/r30/`)
 
 `index.json`:
 
 ```
-{"crs": "EPSG:5070", "res": 30, "tile": 512, "x0": -1013760, "y0": 1520640, "rows": 79, "cols": 82,
+{"crs": "EPSG:5070", "res": 30, "tile": 512, "x0": ..., "y0": ..., "rows": ..., "cols": ...,
  "have": ["0/8", "0/9", ...], "format": "...", "resample": "mode"}
 ```
 
 * The grid is NAD83 / Conus Albers (EPSG:5070, equal area, as NRCS's raster), 30 m cells, in tiles of 512 x 512 cells
   (15,360 m) whose origin (`x0`, `y0`: the left edge of tile column 0 and the top edge of tile row 0) is a multiple of
-  15,360 m. `have` lists the tiles written, as `"row/col"`.
+  15,360 m, so every state's grid lines up with the others'. `have` lists the tiles written, as `"row/col"`.
 * Each `.bin` holds 512 x 512 unsigned 16-bit little-endian integers, row by row from the north-west corner,
-  compressed with zlib (what `DecompressionStream("deflate")` reads). A value is an index into `mukeys.json`; 0 means
-  no map unit.
-* The 30 m cells come from NRCS's 10 m raster (`muraster_10m_TX.tif`): each cell takes the 9 pixels whose centres lie
-  in it and keeps the map unit that covers most of them (pixels with no map unit do not count, so a cell is empty only
-  when all 81 are; a tie goes to the centre pixel's map unit). At 3,000 random points in Texas the copy gives the 10 m
-  raster's map unit at 89.5% of them (over all of Texas's 10 m pixels, 91.0%); 13,115 of the 13,122 map units are big
-  enough to appear in it.
+  compressed with zlib (what `DecompressionStream("deflate")` reads). A value is an index into the state's
+  `mukeys.json`; 0 means no map unit.
+* **Why 30 m.** NRCS maps the soils at 10 m (`muraster_10m_<ST>.tif`). At 10 m the 48 states would take about 4 GB,
+  more than four free GitHub Pages sites hold; at 30 m they take about 1.6 GB, in four sites of less than 1 GB. Each
+  30 m cell takes the 9 pixels whose centres lie in it and keeps the map unit that covers most of them (pixels with
+  no map unit do not count, so a cell is empty only when all 9 are; a tie goes to the centre pixel's map unit). The
+  map unit at a point can therefore differ from NRCS's near the edge of a map unit, and map units narrower than a
+  cell (strips along streams, for example) can be missed: see *10 m pixels kept* above.
 
 ## Looking up a point
 
@@ -106,30 +131,27 @@ async function soilAt(base, lat, lon) {
 }
 ```
 
-`index.json` and `mukeys.json` (3 kB and 94 kB, 1 kB and 31 kB gzipped) are worth keeping once loaded; a point then costs one tile
-(about 55 kB) and one record file (about 130 kB, 17 kB gzipped). `tools/lookup_point.py` does the same in Python:
-`python tools/lookup_point.py TX 31.044 -97.347`.
+`index.json` and `mukeys.json` are worth keeping once loaded; a point then costs one tile (tens of kB) and one record
+file (tens of kB gzipped). In Python: `python tools/lookup_point.py TX <lat> <lon> --root <this repository's folder>`
+(`tools/` of the soildata repository).
 
 ## Rebuilding
 
-1. Download `SQLite_SSURGO_TX.7z` (1.9 GB) from NRCS's Box share, https://nrcs.app.box.com/v/soils, folder
-   *SSURGO / SQLite SSURGO (Geopackages) / States*, and unpack it (7-Zip): it holds `SQLite_SSURGO_TX.gpkg` (5.3 GB) and
-   `muraster_10m_TX.tif` with its `.ovr` and value table.
-2. Run, with Python 3.9 or later, numpy and rasterio:
-
-   ```
-   python tools/build_ssurgo.py TX --src <the unpacked SQLite_SSURGO_TX folder>
-   ```
-
-   It replaces `TX/mu` and `TX/r30` and rewrites `TX/mukeys.json` and `TX/meta.json` (about a minute for Texas with
-   16 processes). `--res 30` makes another cell size (a multiple of 10 m, in `TX/r30`); another state's download builds
-   that state's folder (`python tools/build_ssurgo.py OK --src ...`).
+1. `tools/fetch_states.py` (soildata repository) lists NRCS's Box share, https://nrcs.app.box.com/v/soils, folder
+   *SSURGO / SQLite SSURGO (Geopackages) / States*, downloads each state's `SQLite_SSURGO_<ST>.7z`, unpacks it with
+   7-Zip (`SQLite_SSURGO_<ST>.gpkg` and `muraster_10m_<ST>.tif` with its `.ovr` and value table) and runs
+   `tools/build_ssurgo.py <ST> --src <the unpacked folder> --out <this repository's folder>` (Python 3.9 or later,
+   numpy and rasterio). It replaces `<ST>/mu` and `<ST>/r30` and rewrites `<ST>/mukeys.json` and `<ST>/meta.json`.
+2. A state whose package has no usable GeoPackage takes its tables from the national CSV tables:
+   `tools/state_from_csv.py <ST> --csv <unpacked csv_ssurgo folder> --out <folder>`, then
+   `tools/build_ssurgo.py <ST> --src <the unpacked state folder> --tables <folder>/SQLite_SSURGO_<ST>.sqlite`.
+3. `tools/make_readmes.py` writes this file again from the states' `meta.json`.
 
 ## Credit and disclaimer
 
 Soil Survey Staff, Natural Resources Conservation Service, United States Department of Agriculture. Soil Survey
-Geographic (SSURGO) Database for Texas, FY2027 (SQLite SSURGO state download, published October 1, 2026). Available
-online at https://nrcs.app.box.com/v/soils. Public domain.
+Geographic (SSURGO) Database, FY2027 (SQLite SSURGO state downloads and national CSV tables, published October 1,
+2026). Available online at https://nrcs.app.box.com/v/soils. Public domain.
 
 This is not an official NRCS product, and NRCS has not reviewed it. It is a converted copy: the tables are reshaped
 and the map unit raster is coarsened from 10 m to 30 m, so the map unit found at a point can differ from the one in

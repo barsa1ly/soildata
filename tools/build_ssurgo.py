@@ -2,7 +2,7 @@
 """build_ssurgo.py: a static copy of one state's USDA-NRCS soil survey (SSURGO), for a web page to read when USDA's
 Soil Data Access (SDA) does not answer.
 
-The copy answers the question the SoilGuard and FieldGuard apps ask SDA for a point (js/soil.js batch() and
+The copy answers the question the SoilGuard app asks SDA for a point (js/soil.js batch() and
 tablesAt()): which map unit is at the point, and that map unit's rows from eight tables (map unit, components,
 horizons, overlapping areas, ecological classes, crop yields, plants, restrictions), with the same columns, the same
 row order and every value a string, as SDA's JSON gives them.
@@ -29,6 +29,9 @@ Usage (Python 3.9+ with numpy and rasterio; run it from a folder of your own):
   python build_ssurgo.py TX --src E:/LocalAi/soildata-build/unpacked/SQLite_SSURGO_TX
   python build_ssurgo.py TX --res 30          another resolution, a multiple of the 10 m source
   python build_ssurgo.py TX --only tables     only mu/, mukeys.json and meta.json (--only raster: only the tiles)
+  python build_ssurgo.py AR --tables <file>   the tables from another SQLite file, such as one state_from_csv.py makes
+                                              from NRCS's national CSV tables (a state whose package lacks a usable
+                                              GeoPackage: AR and MN in FY2027); its _source table goes into meta.json
 --src defaults to <repo>/../soildata-build/unpacked/SQLite_SSURGO_<ST>, --out to the repo this file is in.
 A run replaces <out>/<ST>/mu and <out>/<ST>/r<res> as a whole.
 """
@@ -466,6 +469,7 @@ def main():
     ap.add_argument("--res", type=int, default=30, help="output raster cell size in metres, a multiple of 10 (default 30)")
     ap.add_argument("--src", help="folder with SQLite_SSURGO_<ST>.gpkg and muraster_10m_<ST>.tif")
     ap.add_argument("--out", help="the repo folder (default: the one this tool is in)")
+    ap.add_argument("--tables", help="a SQLite file with the tables, instead of <src>/SQLite_SSURGO_<ST>.gpkg")
     ap.add_argument("--only", choices=("all", "tables", "raster"), default="all")
     ap.add_argument("--resample", choices=("mode", "nearest"), default="mode")
     ap.add_argument("--workers", type=int, default=min(16, os.cpu_count() or 1))
@@ -474,7 +478,7 @@ def main():
     st = args.state.upper()
     repo = Path(args.out).resolve() if args.out else Path(__file__).resolve().parent.parent
     src = Path(args.src).resolve() if args.src else (repo.parent / "soildata-build" / "unpacked" / f"SQLite_SSURGO_{st}")
-    gpkg = src / f"SQLite_SSURGO_{st}.gpkg"
+    gpkg = Path(args.tables).resolve() if args.tables else src / f"SQLite_SSURGO_{st}.gpkg"
     raster = src / f"muraster_10m_{st}.tif"
     vat = src / f"muraster_10m_{st}.tif.vat.dbf"
     for p in (gpkg, raster):
@@ -523,6 +527,8 @@ def main():
         "url": "https://nrcs.app.box.com/v/soils",
         "path": "SSURGO/SQLite SSURGO (Geopackages)/States",
         "tables": gpkg.name, "raster": raster.name}
+    if con.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = '_source'").fetchone():
+        meta["source"].update(dict(con.execute("SELECT key, value FROM _source")))   # where the tables came from
     meta["fy"], meta["published"] = fy, published
     sv = [parse_survey_date(r[0]) for r in con.execute("SELECT saverest FROM sacatalog")]
     sv = [d for d in sv if d]

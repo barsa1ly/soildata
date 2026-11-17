@@ -9,6 +9,7 @@ It needs only Python's standard library (rasterio for --raster). The lon/lat -> 
 the same formulas as the JavaScript in README.md; it is checked against PROJ (pyproj) when pyproj is installed.
 """
 import argparse
+import gzip
 import json
 import math
 import struct
@@ -58,7 +59,7 @@ def lookup(root, st, lat, lon, res=90):
     mk = mukeys[i]
     rec = None
     if mk:
-        shard = json.loads((d / "mu" / f"{mk % 1024}.json").read_text(encoding="utf-8"))
+        shard = json.loads(gzip.decompress((d / "mu" / f"{mk % 1024}.json.gz").read_bytes()).decode("utf-8"))
         rec = shard.get(str(mk))
     return x, y, i, mk, rec, key, (pr, pc)
 
@@ -80,7 +81,7 @@ def main():
     ap.add_argument("lat", type=float)
     ap.add_argument("lon", type=float)
     ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent))
-    ap.add_argument("--res", type=int, default=90)
+    ap.add_argument("--res", type=int, default=30)
     ap.add_argument("--raster", help="the 10 m map unit GeoTIFF, to compare")
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()

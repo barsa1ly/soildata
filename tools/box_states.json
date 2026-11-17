@@ -1,0 +1,364 @@
+{
+ "share": "https://nrcs.app.box.com/v/soils",
+ "path": "SSURGO/SQLite SSURGO (Geopackages)/States",
+ "folderId": 422965633902,
+ "listed": "2026-11-16T22:21:14Z",
+ "count": 59,
+ "bytes": 41232424925,
+ "files": [
+  {
+   "state": "AK",
+   "name": "SQLite_SSURGO_AK.7z",
+   "id": "f_2511964820437",
+   "size": 713900463
+  },
+  {
+   "state": "AL",
+   "name": "SQLite_SSURGO_AL.7z",
+   "id": "f_2511967559563",
+   "size": 851287198
+  },
+  {
+   "state": "AR",
+   "name": "SQLite_SSURGO_AR.7z",
+   "id": "f_2511978628062",
+   "size": 174938710
+  },
+  {
+   "state": "AS",
+   "name": "SQLite_SSURGO_AS.7z",
+   "id": "f_2511965116637",
+   "size": 1417449
+  },
+  {
+   "state": "AZ",
+   "name": "SQLite_SSURGO_AZ.7z",
+   "id": "f_2511964754326",
+   "size": 411449336
+  },
+  {
+   "state": "CA",
+   "name": "SQLite_SSURGO_CA.7z",
+   "id": "f_2512116805955",
+   "size": 1131837819
+  },
+  {
+   "state": "CO",
+   "name": "SQLite_SSURGO_CO.7z",
+   "id": "f_2511982374703",
+   "size": 825539081
+  },
+  {
+   "state": "CT",
+   "name": "SQLite_SSURGO_CT.7z",
+   "id": "f_2512006259564",
+   "size": 167152939
+  },
+  {
+   "state": "DC",
+   "name": "SQLite_SSURGO_DC.7z",
+   "id": "f_2511986270081",
+   "size": 3437621
+  },
+  {
+   "state": "DE",
+   "name": "SQLite_SSURGO_DE.7z",
+   "id": "f_2511982259294",
+   "size": 33486867
+  },
+  {
+   "state": "FL",
+   "name": "SQLite_SSURGO_FL.7z",
+   "id": "f_2514300553514",
+   "size": 738997670
+  },
+  {
+   "state": "FM",
+   "name": "SQLite_SSURGO_FM.7z",
+   "id": "f_2511974850105",
+   "size": 6651298
+  },
+  {
+   "state": "GA",
+   "name": "SQLite_SSURGO_GA.7z",
+   "id": "f_2516980153809",
+   "size": 604790700
+  },
+  {
+   "state": "GU",
+   "name": "SQLite_SSURGO_GU.7z",
+   "id": "f_2516758244763",
+   "size": 4231766
+  },
+  {
+   "state": "HI",
+   "name": "SQLite_SSURGO_HI.7z",
+   "id": "f_2517014764730",
+   "size": 45226569
+  },
+  {
+   "state": "IA",
+   "name": "SQLite_SSURGO_IA.7z",
+   "id": "f_2512240770433",
+   "size": 2159233218
+  },
+  {
+   "state": "ID",
+   "name": "SQLite_SSURGO_ID.7z",
+   "id": "f_2516986372040",
+   "size": 657494101
+  },
+  {
+   "state": "IL",
+   "name": "SQLite_SSURGO_IL.7z",
+   "id": "f_2512139317457",
+   "size": 1445514513
+  },
+  {
+   "state": "IN",
+   "name": "SQLite_SSURGO_IN.7z",
+   "id": "f_2512026299525",
+   "size": 1177708407
+  },
+  {
+   "state": "KS",
+   "name": "SQLite_SSURGO_KS.7z",
+   "id": "f_2512025540482",
+   "size": 833162331
+  },
+  {
+   "state": "KY",
+   "name": "SQLite_SSURGO_KY.7z",
+   "id": "f_2512081571613",
+   "size": 820685596
+  },
+  {
+   "state": "LA",
+   "name": "SQLite_SSURGO_LA.7z",
+   "id": "f_2512109658825",
+   "size": 484224494
+  },
+  {
+   "state": "MA",
+   "name": "SQLite_SSURGO_MA.7z",
+   "id": "f_2512124726129",
+   "size": 203430006
+  },
+  {
+   "state": "MD",
+   "name": "SQLite_SSURGO_MD.7z",
+   "id": "f_2512235576477",
+   "size": 302313481
+  },
+  {
+   "state": "ME",
+   "name": "SQLite_SSURGO_ME.7z",
+   "id": "f_2512243835016",
+   "size": 434821995
+  },
+  {
+   "state": "MH",
+   "name": "SQLite_SSURGO_MH.7z",
+   "id": "f_2512237945263",
+   "size": 1000535
+  },
+  {
+   "state": "MI",
+   "name": "SQLite_SSURGO_MI.7z",
+   "id": "f_2512256961009",
+   "size": 1172501874
+  },
+  {
+   "state": "MN",
+   "name": "SQLite_SSURGO_MN.7z",
+   "id": "f_2512267537936",
+   "size": 2066163729
+  },
+  {
+   "state": "MO",
+   "name": "SQLite_SSURGO_MO.7z",
+   "id": "f_2512279809451",
+   "size": 1261676449
+  },
+  {
+   "state": "MP",
+   "name": "SQLite_SSURGO_MP.7z",
+   "id": "f_2512272783941",
+   "size": 6452573
+  },
+  {
+   "state": "MS",
+   "name": "SQLite_SSURGO_MS.7z",
+   "id": "f_2512280958170",
+   "size": 806054987
+  },
+  {
+   "state": "MT",
+   "name": "SQLite_SSURGO_MT.7z",
+   "id": "f_2513954058169",
+   "size": 1661885776
+  },
+  {
+   "state": "NC",
+   "name": "SQLite_SSURGO_NC.7z",
+   "id": "f_2513962014797",
+   "size": 960632545
+  },
+  {
+   "state": "ND",
+   "name": "SQLite_SSURGO_ND.7z",
+   "id": "f_2513975670612",
+   "size": 1857231863
+  },
+  {
+   "state": "NE",
+   "name": "SQLite_SSURGO_NE.7z",
+   "id": "f_2513981286867",
+   "size": 1198581604
+  },
+  {
+   "state": "NH",
+   "name": "SQLite_SSURGO_NH.7z",
+   "id": "f_2513989561600",
+   "size": 158033929
+  },
+  {
+   "state": "NJ",
+   "name": "SQLite_SSURGO_NJ.7z",
+   "id": "f_2513994548966",
+   "size": 140530000
+  },
+  {
+   "state": "NM",
+   "name": "SQLite_SSURGO_NM.7z",
+   "id": "f_2513993793214",
+   "size": 529959009
+  },
+  {
+   "state": "NV",
+   "name": "SQLite_SSURGO_NV.7z",
+   "id": "f_2513998706306",
+   "size": 447753663
+  },
+  {
+   "state": "NY",
+   "name": "SQLite_SSURGO_NY.7z",
+   "id": "f_2514009056485",
+   "size": 1084037263
+  },
+  {
+   "state": "OH",
+   "name": "SQLite_SSURGO_OH.7z",
+   "id": "f_2514304916922",
+   "size": 1330238501
+  },
+  {
+   "state": "OK",
+   "name": "SQLite_SSURGO_OK.7z",
+   "id": "f_2514022881338",
+   "size": 895428123
+  },
+  {
+   "state": "OR",
+   "name": "SQLite_SSURGO_OR.7z",
+   "id": "f_2514029586635",
+   "size": 818675176
+  },
+  {
+   "state": "PA",
+   "name": "SQLite_SSURGO_PA.7z",
+   "id": "f_2514068929705",
+   "size": 904928190
+  },
+  {
+   "state": "PR",
+   "name": "SQLite_SSURGO_PR.7z",
+   "id": "f_2514084966452",
+   "size": 46567342
+  },
+  {
+   "state": "PW",
+   "name": "SQLite_SSURGO_PW.7z",
+   "id": "f_2514087175112",
+   "size": 9413286
+  },
+  {
+   "state": "RI",
+   "name": "SQLite_SSURGO_RI.7z",
+   "id": "f_2514096536658",
+   "size": 31703704
+  },
+  {
+   "state": "SC",
+   "name": "SQLite_SSURGO_SC.7z",
+   "id": "f_2514288942693",
+   "size": 467416017
+  },
+  {
+   "state": "SD",
+   "name": "SQLite_SSURGO_SD.7z",
+   "id": "f_2514289394139",
+   "size": 1206396416
+  },
+  {
+   "state": "TN",
+   "name": "SQLite_SSURGO_TN.7z",
+   "id": "f_2514302737883",
+   "size": 955727344
+  },
+  {
+   "state": "TX",
+   "name": "SQLite_SSURGO_TX.7z",
+   "id": "f_2512108262371",
+   "size": 1929004885
+  },
+  {
+   "state": "UT",
+   "name": "SQLite_SSURGO_UT.7z",
+   "id": "f_2514350807645",
+   "size": 475952028
+  },
+  {
+   "state": "VA",
+   "name": "SQLite_SSURGO_VA.7z",
+   "id": "f_2514358998335",
+   "size": 835841228
+  },
+  {
+   "state": "VI",
+   "name": "SQLite_SSURGO_VI.7z",
+   "id": "f_2514178513525",
+   "size": 4900441
+  },
+  {
+   "state": "VT",
+   "name": "SQLite_SSURGO_VT.7z",
+   "id": "f_2514295175429",
+   "size": 206759251
+  },
+  {
+   "state": "WA",
+   "name": "SQLite_SSURGO_WA.7z",
+   "id": "f_2514538506863",
+   "size": 765674097
+  },
+  {
+   "state": "WI",
+   "name": "SQLite_SSURGO_WI.7z",
+   "id": "f_2516767270986",
+   "size": 1496101013
+  },
+  {
+   "state": "WV",
+   "name": "SQLite_SSURGO_WV.7z",
+   "id": "f_2516770844656",
+   "size": 399027374
+  },
+  {
+   "state": "WY",
+   "name": "SQLite_SSURGO_WY.7z",
+   "id": "f_2516997594001",
+   "size": 867241082
+  }
+ ]
+}
